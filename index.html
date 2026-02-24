@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Репетитор английского для детей</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sun: #FFD93D;
+    --coral: #FF6B6B;
+    --mint: #6BCFB5;
+    --sky: #4FC3F7;
+    --lavender: #C084FC;
+    --dark: #1A1A2E;
+    --card: #ffffff0e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--dark);
+    color: #fff;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  .cursor {
+    width: 14px; height: 14px;
+    background: var(--sun); border-radius: 50%;
+    position: fixed; pointer-events: none; z-index: 9999;
+    transform: translate(-50%,-50%); mix-blend-mode: difference;
+    transition: transform 0.08s;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 2px solid var(--sun); border-radius: 50%;
+    position: fixed; pointer-events: none; z-index: 9998;
+    transform: translate(-50%,-50%); transition: all 0.13s ease; opacity: 0.45;
+  }
+
+  .blob { position: fixed; border-radius: 50%; filter: blur(90px); opacity: 0.18; pointer-events: none; animation: float 12s ease-in-out infinite; }
+  .b1 { width: 520px; height: 520px; background: var(--coral); top: -120px; left: -160px; animation-delay: 0s; }
+  .b2 { width: 420px; height: 420px; background: var(--mint); bottom: 80px; right: -120px; animation-delay: -5s; }
+  .b3 { width: 360px; height: 360px; background: var(--lavender); top: 45%; left: 38%; animation-delay: -8s; }
+
+  @keyframes float {
+    0%,100% { transform: translate(0,0) scale(1); }
+    33%      { transform: translate(28px,-28px) scale(1.05); }
+    66%      { transform: translate(-18px,18px) scale(0.97); }
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh; display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center; gap: 60px;
+    max-width: 1100px; margin: 0 auto;
+    padding: 80px 40px 60px;
+  }
+  @media(max-width:750px) {
+    .hero { grid-template-columns: 1fr; padding: 60px 24px 40px; text-align: center; }
+    .hero-photo { order: -1; max-width: 280px; margin: 0 auto; }
+    .cta-group { justify-content: center; }
+  }
+
+  .badge {
+    display: inline-block; background: var(--sun); color: var(--dark);
+    font-size: 12px; font-weight: 600; letter-spacing: 0.13em; text-transform: uppercase;
+    padding: 6px 18px; border-radius: 999px; margin-bottom: 24px;
+    animation: popIn 0.6s cubic-bezier(0.34,1.56,0.64,1) both;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(38px, 5.5vw, 68px); line-height: 1.0;
+    margin-bottom: 20px; animation: slideUp 0.7s 0.1s cubic-bezier(0.22,1,0.36,1) both;
+  }
+  .hero h1 em { font-style: italic; color: var(--sun); }
+
+  .hero-sub {
+    font-size: 17px; line-height: 1.7; color: rgba(255,255,255,0.6);
+    margin-bottom: 30px; animation: slideUp 0.7s 0.2s cubic-bezier(0.22,1,0.36,1) both;
+  }
+
+  .free-pill {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: linear-gradient(135deg, #FF6B6B22, #FFD93D18);
+    border: 1px solid rgba(255,209,61,0.35); border-radius: 16px;
+    padding: 13px 20px; font-size: 14px; margin-bottom: 30px;
+    color: var(--sun); font-weight: 500;
+    animation: slideUp 0.7s 0.25s cubic-bezier(0.22,1,0.36,1) both;
+  }
+  .free-pill span {
+    background: var(--sun); color: var(--dark);
+    font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 3px 10px; border-radius: 999px;
+  }
+
+  .cta-group { display: flex; gap: 14px; flex-wrap: wrap; animation: slideUp 0.7s 0.35s cubic-bezier(0.22,1,0.36,1) both; }
+
+  .btn {
+    padding: 15px 34px; border-radius: 999px;
+    font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500;
+    cursor: none; border: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none; display: inline-block;
+  }
+  .btn:hover { transform: translateY(-3px) scale(1.03); }
+  .btn-primary { background: var(--sun); color: var(--dark); box-shadow: 0 8px 28px #FFD93D44; }
+  .btn-primary:hover { box-shadow: 0 14px 40px #FFD93D66; }
+  .btn-ghost { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,0.28); }
+  .btn-ghost:hover { border-color: #fff; background: rgba(255,255,255,0.06); }
+
+  /* ── PHOTO ── */
+  .hero-photo {
+    position: relative;
+    animation: slideUp 0.8s 0.15s cubic-bezier(0.22,1,0.36,1) both;
+  }
+
+  .photo-wrap {
+    position: relative;
+    aspect-ratio: 4/5;
+    border-radius: 36px;
+    overflow: hidden;
+    background: linear-gradient(145deg, #252545, #1c1c38);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+    border: 2px dashed rgba(255,255,255,0.22);
+  }
+
+  .photo-wrap img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center top;
+    display: none; z-index: 2;
+  }
+  .photo-wrap img.loaded { display: block; }
+
+  .photo-hint {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 16px;
+    background: linear-gradient(145deg, rgba(255,107,107,0.1), rgba(192,132,252,0.1));
+  }
+  .ph-icon {
+    width: 90px; height: 90px; border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    border: 2px dashed rgba(255,255,255,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 38px;
+  }
+  .photo-hint strong { font-size: 17px; color: rgba(255,255,255,0.8); }
+  .photo-hint p { font-size: 13px; color: rgba(255,255,255,0.42); text-align: center; padding: 0 28px; line-height: 1.6; }
+
+  /* ── SECTION ── */
+  section { padding: 80px 40px; max-width: 1100px; margin: 0 auto; }
+  @media(max-width:600px){ section { padding: 60px 24px; } }
+
+  .section-tag { display: inline-block; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--mint); margin-bottom: 12px; font-weight: 500; }
+  h2 { font-family: 'Playfair Display', serif; font-size: clamp(30px, 5vw, 50px); line-height: 1.1; margin-bottom: 44px; }
+
+  /* ── ABOUT ── */
+  .about-text p { font-size: 16px; line-height: 1.85; color: rgba(255,255,255,0.65); margin-bottom: 18px; max-width: 640px; }
+  .feat-list { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+  .feat {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--card); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px; padding: 12px 18px; font-size: 14px; font-weight: 500;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .feat:hover { border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.1); }
+  .feat .ei { font-size: 20px; }
+
+  /* ── SUBJECTS ── */
+  .subjects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; }
+  .subject-card {
+    background: var(--card); border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 24px; padding: 32px 26px;
+    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    text-align: center; position: relative; overflow: hidden;
+  }
+  .subject-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,0.03), transparent); }
+  .subject-card:hover { transform: translateY(-6px); border-color: rgba(255,255,255,0.22); box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
+  .subject-icon { font-size: 42px; margin-bottom: 16px; }
+  .subject-card h3 { font-family: 'Playfair Display', serif; font-size: 19px; margin-bottom: 8px; }
+  .subject-card p { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+  /* ── FORMATS ── */
+  .formats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+  .format-card {
+    background: var(--card); border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 24px; padding: 34px 28px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex; flex-direction: column;
+  }
+  .format-card:hover { transform: translateY(-5px); box-shadow: 0 18px 50px rgba(0,0,0,0.25); }
+  .format-card.featured { border-color: rgba(255,217,61,0.38); background: linear-gradient(145deg, rgba(255,217,61,0.08), rgba(255,107,107,0.05)); }
+  .f-label { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 10px; }
+  .format-card.featured .f-label { color: var(--sun); }
+  .format-card h3 { font-family: 'Playfair Display', serif; font-size: 26px; margin-bottom: 10px; }
+  .format-card p { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.65; flex: 1; margin-bottom: 24px; }
+  .format-price { font-size: 32px; font-weight: 600; color: var(--sun); }
+  .format-price span { font-size: 14px; color: rgba(255,255,255,0.4); font-weight: 300; }
+
+  /* ── REVIEWS ── */
+  .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 20px; }
+  .review { background: var(--card); border: 1px solid rgba(255,255,255,0.08); border-radius: 24px; padding: 30px; transition: transform 0.3s; }
+  .review:hover { transform: translateY(-4px); }
+  .stars { color: var(--sun); font-size: 15px; margin-bottom: 14px; letter-spacing: 3px; }
+  .review p { font-size: 14px; line-height: 1.75; color: rgba(255,255,255,0.68); margin-bottom: 20px; font-style: italic; }
+  .reviewer { display: flex; align-items: center; gap: 12px; }
+  .rav { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; color: var(--dark); flex-shrink: 0; }
+  .reviewer-info strong { font-size: 14px; }
+  .reviewer-info span { font-size: 12px; color: rgba(255,255,255,0.38); display: block; }
+
+  /* ── CTA ── */
+  .cta-block {
+    background: linear-gradient(135deg, rgba(255,107,107,0.14), rgba(192,132,252,0.14));
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 36px;
+    padding: 80px 40px; text-align: center; position: relative; overflow: hidden;
+  }
+  .cta-block::before {
+    content: 'ENGLISH';
+    position: absolute; font-family: 'Playfair Display', serif;
+    font-size: 200px; font-weight: 700; opacity: 0.03;
+    top: 50%; left: 50%; transform: translate(-50%,-50%);
+    white-space: nowrap; pointer-events: none;
+  }
+  .cta-block h2 { margin-bottom: 14px; }
+  .cta-block .sub { color: rgba(255,255,255,0.55); font-size: 17px; margin-bottom: 36px; }
+  .vk-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: #4C75A3; color: #fff;
+    padding: 16px 38px; border-radius: 999px;
+    font-size: 16px; font-weight: 500;
+    text-decoration: none; cursor: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 8px 28px rgba(76,117,163,0.45);
+  }
+  .vk-btn:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(76,117,163,0.65); }
+
+  footer { text-align: center; padding: 40px 20px; font-size: 13px; color: rgba(255,255,255,0.22); border-top: 1px solid rgba(255,255,255,0.06); }
+
+  @keyframes slideUp { from { opacity:0; transform:translateY(32px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes popIn   { from { opacity:0; transform:scale(0.7); }         to { opacity:1; transform:scale(1); } }
+
+  .reveal { opacity:0; transform:translateY(38px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cur"></div>
+<div class="cursor-ring" id="ring"></div>
+<div class="blob b1"></div>
+<div class="blob b2"></div>
+<div class="blob b3"></div>
+
+<!-- ═══ HERO ═══ -->
+<div class="hero">
+  <div class="hero-text">
+    <div class="badge">👦 Репетитор для детей 6–12 лет</div>
+    <h1>Английский — <em>легко</em> и с удовольствием</h1>
+    <p class="hero-sub">Помогаю детям заговорить по-английски через игры, песни и интерактивные задания. Каждый урок — маленькое приключение!</p>
+    <div class="free-pill">
+      <span>БЕСПЛАТНО</span>
+      🎁 Пробный урок — 30 минут
+    </div>
+    <div class="cta-group">
+      <a href="https://vk.com/angliski_detyam" class="btn btn-primary">Записаться на урок</a>
+      <a href="https://vk.com/angliski_detyam" class="btn btn-ghost">Узнать подробнее</a>
+    </div>
+  </div>
+
+  <!-- PHOTO BLOCK -->
+  <div class="hero-photo">
+    <div class="photo-wrap">
+      <!--
+        ╔══════════════════════════════════════════╗
+        ║  ДОБАВЬТЕ СВОЁ ФОТО:                     ║
+        ║  Замените "" на путь к фото:             ║
+        ║  src="photo.jpg"                         ║
+        ╚══════════════════════════════════════════╝
+      -->
+      <img src="" alt="Репетитор английского" id="tutorPhoto">
+      <div class="photo-hint" id="photoHint">
+        <div class="ph-icon">📷</div>
+        <strong>Ваше фото здесь</strong>
+        <p>Укажите src="photo.jpg"<br>в теге &lt;img&gt; выше</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ABOUT ═══ -->
+<section id="about">
+  <div class="about-text reveal">
+    <div class="section-tag">// Обо мне</div>
+    <h2>Индивидуальный подход к каждому ребёнку</h2>
+    <p>Я — опытный репетитор английского языка с более чем 20-летним стажем. Специализируюсь на работе с детьми 6–12 лет и точно знаю, как сделать уроки интересными и эффективными.</p>
+    <p>Использую коммуникативную методику: дети не заучивают правила скучно, а сразу учатся говорить — через игры, песни, интерактивные задания и живые диалоги. Уроки проходят онлайн, в удобное для вас время.</p>
+    <div class="feat-list">
+      <div class="feat"><span class="ei">✨</span> 20+ лет опыта</div>
+      <div class="feat"><span class="ei">🎯</span> Коммуникативная методика</div>
+      <div class="feat"><span class="ei">🎮</span> Игровой формат</div>
+      <div class="feat"><span class="ei">💻</span> Онлайн-уроки</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SUBJECTS ═══ -->
+<section>
+  <div class="reveal">
+    <div class="section-tag">// Чем мы занимаемся</div>
+    <h2>Направления работы</h2>
+  </div>
+  <div class="subjects-grid reveal">
+    <div class="subject-card">
+      <div class="subject-icon">🌱</div>
+      <h3>Английский с нуля</h3>
+      <p>Первые шаги в языке — мягко, без стресса, с радостью открытий.</p>
+    </div>
+    <div class="subject-card">
+      <div class="subject-icon">📚</div>
+      <h3>Помощь с домашним заданием</h3>
+      <p>Разбираем школьную программу, закрываем пробелы в знаниях.</p>
+    </div>
+    <div class="subject-card">
+      <div class="subject-icon">📈</div>
+      <h3>Повышение успеваемости</h3>
+      <p>Из «тройки» в «пятёрку» — системный подход и уверенность в знаниях.</p>
+    </div>
+    <div class="subject-card">
+      <div class="subject-icon">🚀</div>
+      <h3>Выход за рамки программы</h3>
+      <p>Для любознательных детей, которые хотят знать больше и говорить свободно.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FORMATS ═══ -->
+<section id="services">
+  <div class="reveal">
+    <div class="section-tag">// Форматы занятий</div>
+    <h2>Выберите свой формат</h2>
+  </div>
+  <div class="formats-grid reveal">
+    <div class="format-card featured">
+      <div class="f-label">⭐ Популярный выбор</div>
+      <h3>Индивидуально</h3>
+      <p>Персональная программа под уровень и цели вашего ребёнка. Максимальное внимание и быстрый прогресс.</p>
+      <div class="format-price">1 200 ₽ <span>/ урок</span></div>
+    </div>
+    <div class="format-card">
+      <div class="f-label">👫 В паре</div>
+      <h3>В паре</h3>
+      <p>Учимся вместе с другом или одноклассником — больше живого общения и мотивации друг друга.</p>
+      <div class="format-price">1 000 ₽ <span>/ урок</span></div>
+    </div>
+    <div class="format-card">
+      <div class="f-label">👨‍👩‍👧‍👦 Мини-группа</div>
+      <h3>Группа</h3>
+      <p>Весёлые мини-группы до 4 учеников. Командные игры, соревнования и живое общение.</p>
+      <div class="format-price">800 ₽ <span>/ урок</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ REVIEWS ═══ -->
+<section>
+  <div class="reveal">
+    <div class="section-tag">// Отзывы родителей</div>
+    <h2>Что говорят родители</h2>
+  </div>
+  <div class="reviews-grid reveal">
+    <div class="review">
+      <div class="stars">★★★★★</div>
+      <p>«Инесса Степановна, хочу сказать Вам слова огромной благодарности! Время, когда ребенок учился у Вас в началке — и я, и Рома вспоминаем с радостью! Ведь Ваша методика — суперическая! Карточки — это просто находка. Темы запоминались на ура. Очень важно, что ребенок знал, понимал и делал уроки сам. Мы с радостью станем Вашими учениками. Удачи Вам, потому что с таким Учителем я спокойна, что ребенок и его знания — в надёжных руках!»</p>
+      <div class="reviewer">
+        <div class="rav" style="background:var(--coral)">А</div>
+        <div class="reviewer-info"><strong>Анна П.</strong></div>
+      </div>
+    </div>
+    <div class="review">
+      <div class="stars">★★★★★</div>
+      <p>«Инесса Степановна, наши бесконечные слова благодарности Вам. Когда пришли, Софья и читать-то не могла. Вы быстро нашли к ней подход, всё доходчиво объяснили и страх перед английским исчез. Ребёнок с удовольствием занимается. В этом году новый формат — онлайн. Честно, был страх: получится ли? И совершенно напрасно. Качество занятий не пострадало, знания дочки растут, и ещё один плюс — не тратим время на дорогу. Спасибо огромнейшее.»</p>
+      <div class="reviewer">
+        <div class="rav" style="background:var(--sky)">М</div>
+        <div class="reviewer-info"><strong>Марина Е.</strong></div>
+      </div>
+    </div>
+    <div class="review">
+      <div class="stars">★★★★★</div>
+      <p>«Инесса Степановна, хочу выразить Вам огромную благодарность за Ваш труд! Спасибо за внимательность, заботу и доброту, оказанную моей дочери. Ваш педагогический талант и чуткое понимание ученика позволили сделать процесс обучения увлекательным и успешным. Альмира с удовольствием посещает Ваши занятия и с радостью ждёт встречи с Вами. От всей души желаем дальнейших успехов и настоящего счастья!»</p>
+      <div class="reviewer">
+        <div class="rav" style="background:var(--mint)">Л</div>
+        <div class="reviewer-info"><strong>Людмила А.</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<section id="contact">
+  <div class="cta-block reveal">
+    <div class="section-tag">// Запись на занятие</div>
+    <h2>Начнём с бесплатного урока? 🎁</h2>
+    <p class="sub">Напишите мне ВКонтакте — подберём удобное время и познакомимся с вашим ребёнком! ✉️</p>
+    <a href="https://vk.com/angliski_detyam" class="vk-btn">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M15.684 0H8.316C1.592 0 0 1.592 0 8.316v7.368C0 22.408 1.592 24 8.316 24h7.368C22.408 24 24 22.408 24 15.684V8.316C24 1.592 22.408 0 15.684 0zm3.692 17.123h-1.744c-.66 0-.864-.525-2.05-1.727-1.033-1-1.49-.946-1.49.097v1.567c0 .376-.12.6-1.112.6-1.638 0-3.455-1-4.73-2.87-1.92-2.703-2.447-4.73-2.447-5.146 0-.205.082-.396.39-.396h1.744c.29 0 .4.135.51.45.56 1.616 1.49 3.03 1.875 3.03.145 0 .21-.065.21-.42V9.7c-.042-.753-.427-.817-.427-1.085 0-.163.135-.327.35-.327h2.745c.233 0 .316.124.316.41v2.785c0 .232.1.314.163.314.145 0 .267-.082.533-.35 1.637-1.833 2.805-4.655 2.805-4.655.082-.165.233-.315.51-.315h1.744c.524 0 .637.27.524.633-.22 1.02-2.358 4.03-2.358 4.03-.185.3-.25.432 0 .764.184.247 1.46 1.4 1.46 1.4.9.816 1.59 1.507 1.755 2.026.138.426-.083.64-.574.64z"/></svg>
+      Написать ВКонтакте
+    </a>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 · Репетитор английского языка для детей 6–12 лет · Онлайн-уроки</p>
+</footer>
+
+<script>
+  const cur = document.getElementById('cur');
+  const ring = document.getElementById('ring');
+  document.addEventListener('mousemove', e => {
+    cur.style.left = e.clientX + 'px';
+    cur.style.top = e.clientY + 'px';
+    setTimeout(() => { ring.style.left = e.clientX + 'px'; ring.style.top = e.clientY + 'px'; }, 85);
+  });
+
+  const img = document.getElementById('tutorPhoto');
+  const hint = document.getElementById('photoHint');
+  function checkPhoto() {
+    if (img.src && img.src !== window.location.href && img.naturalWidth > 0) {
+      img.classList.add('loaded');
+      if (hint) hint.style.display = 'none';
+    }
+  }
+  img.addEventListener('load', checkPhoto);
+  checkPhoto();
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
+</body>
+</html>
